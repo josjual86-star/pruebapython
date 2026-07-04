@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">Sistema de administración</h1>
+
+        <h4>
+            Bienvenido {{ usuario }}
+        </h4>
+
+    </div>
+
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h4>Productos</h4>
+
+                    <p>
+                        Administra los productos del sistema.
+                    </p>
+
+                    <a href="/productos"
+                        class="btn btn-primary w-100">
+
+                        Entrar
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+
+                    <h4>Empleados</h4>
+
+                    <p>
+                        Administra los empleados.
+                    </p>
+
+                    <a href="/empleados"
+                        class="btn btn-success w-100">
+
+                        Entrar
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+
+        <a href="{{ url_for('logout') }}"
+            class="btn btn-danger w-25">
+
+            Cerrar sesión
+
+        </a>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+</html>

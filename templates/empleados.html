@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Empleados</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-center">Catálogo de Empleados</h2>
+
+    <div class="d-flex justify-content-center mb-3">
+
+    <a href="{{ url_for('nuevo_empleado') }}"
+        class="btn btn-success">
+
+        Agregar Empleado
+
+    </a>
+
+</div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead">
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nombre</th>
+
+                <th>Puesto</th>
+
+                <th>Acciones</th>
+
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for empleado in empleados %}
+
+            <tr>
+
+                <td>{{ empleado.id }}</td>
+
+                <td>{{ empleado.nombre }}</td>
+
+                <td>{{ empleado.puesto }}</td>
+
+                <td>
+
+                    <a href="{{ url_for('editar_empleado', id=empleado.id) }}"
+                    class="btn btn-warning btn-sm">
+
+                    Editar
+
+                    </a>
+                    <a href="{{ url_for('eliminar_empleado', id=empleado.id) }}"
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('¿Eliminar este Empleado?')">
+
+                    Eliminar
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <a href="{{ url_for('dashboard') }}"
+        class="btn btn-secondary">
+
+        Regresar
+
+    </a>
+
+</div>
+
+</body>
+</html>

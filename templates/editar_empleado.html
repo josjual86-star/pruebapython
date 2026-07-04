@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Editar Empleado</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+<div class="row justify-content-center">
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-header">
+
+    <h3>Editar Empleado</h3>
+
+</div>
+
+<div class="card-body">
+
+    <form action="{{ url_for('actualizar_empleado', id=empleado.id) }}"
+        method="POST">
+
+<div class="mb-3">
+
+<label>Nombre</label>
+
+<input
+type="text"
+name="nombre"
+class="form-control"
+value="{{ empleado.nombre }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Puesto</label>
+
+<input
+type="text"
+name="puesto"
+class="form-control"
+value="{{ empleado.puesto }}"
+required>
+
+</div>
+
+<button class="btn btn-primary">
+
+Guardar Cambios
+
+</button>
+
+<a href="{{ url_for('empleados') }}"
+class="btn btn-secondary">
+
+Cancelar
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from config import Config
 from models import db, Usuario, Producto, Empleado
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -12,6 +13,15 @@ db.init_app(app)
 @app.route("/")
 def inicio():
     return render_template("login.html")
+
+@app.route("/crear_usuario", methods=["GET", "POST"])
+def crear_usuario():
+
+    if request.method == "POST":
+        # Aquí se guarda el usuario en la base de datos 
+        pass
+
+    return render_template("crear_usuario.html")
 
 @app.route("/login", methods=["POST"])
 def login():

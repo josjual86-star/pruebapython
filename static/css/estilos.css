@@ -1,0 +1,41 @@
+body{
+
+    background: linear-gradient(135deg,#0d6efd,#6f42c1);
+
+}
+
+.card{
+
+    animation: aparecer .5s ease;
+
+}
+
+.form-control{
+
+    border-radius:10px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+        transform:translateY(-20px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}

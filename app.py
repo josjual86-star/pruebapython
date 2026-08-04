@@ -34,6 +34,10 @@ def login():
     else:
 
         return "Usuario o contraseña incorrectos"
+    
+@app.route('/crear_usuario')
+def crear_usuario():
+    return render_template('crear_usuario.html')
 
 @app.route("/dashboard")
 def dashboard():

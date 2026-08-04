@@ -19,13 +19,16 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 </head>
-<h1 class="text-center mt-5">Sistema de administración</h1>
 
 <body class="bg-primary bg-gradient">
 
 <div class="container vh-100 d-flex justify-content-center align-items-center">
 
     <div class="col-md-5">
+
+        <h1 class="text-center text-white mb-4">
+            Sistema de administración
+        </h1>
 
         <div class="card shadow-lg border-0 rounded-4">
 
@@ -45,7 +48,13 @@
 
                 </div>
 
-                <form action="/login" method="POST">
+                {% if mensaje %}
+                <div class="alert alert-warning text-center">
+                    {{ mensaje }}
+                </div>
+                {% endif %}
+
+                <form action="{{ url_for('login') }}" method="POST">
 
                     <div class="mb-3">
 
@@ -75,26 +84,32 @@
 
                     </div>
 
-                    <button class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary w-100">
 
                         <i class="bi bi-box-arrow-in-right"></i>
 
                         Entrar
 
                     </button>
-                    <div class="text-center mt-4">
-                        <p class="mb-2 text-muted">
-                            ¿No tienes una cuenta?
-                        </p>
-
-                        <a href="{{ url_for('crear_usuario') }}"
-                            class="btn btn-outline-success w-100">
-                            <i class="bi bi-person-plus"></i>
-                            Crear usuario
-                        </a>
-                    </div>  
 
                 </form>
+
+                <div class="text-center mt-4">
+
+                    <p class="mb-2 text-muted">
+                        ¿No tienes una cuenta?
+                    </p>
+
+                    <a href="{{ url_for('crear_usuario') }}"
+                        class="btn btn-outline-success w-100">
+
+                        <i class="bi bi-person-plus"></i>
+
+                        Crear usuario
+
+                    </a>
+
+                </div>
 
             </div>
 

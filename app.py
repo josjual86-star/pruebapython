@@ -18,9 +18,43 @@ def inicio():
 def crear_usuario():
 
     if request.method == "POST":
-        # Aquí guardarás el usuario
-        return "Usuario creado"
-    
+
+        usuario = request.form["usuario"]
+        password = request.form["password"]
+        confirmar = request.form["confirmar_password"]
+
+        # Verificar que las contraseñas coincidan
+        if password != confirmar:
+            return render_template(
+                "crear_usuario.html",
+                mensaje="Las contraseñas no coinciden."
+            )
+
+        # Verificar si el usuario ya existe
+        existe = Usuario.query.filter_by(usuario=usuario).first()
+
+        if existe:
+            return render_template(
+                "crear_usuario.html",
+                mensaje="El usuario ya existe."
+            )
+
+        # Cifrar contraseña
+        password_hash = generate_password_hash(password)
+
+        nuevo_usuario = Usuario(
+            usuario=usuario,
+            password=password_hash,
+            activo=True
+        )
+
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+
+        return render_template(
+            "login.html",
+            mensaje="Usuario creado correctamente. Ya puedes iniciar sesión."
+        )
 
     return render_template("crear_usuario.html")
 
@@ -32,23 +66,19 @@ def login():
 
     usuario_bd = Usuario.query.filter_by(
         usuario=usuario,
-        password=password,
         activo=True
     ).first()
 
-    if usuario_bd:
+    if usuario_bd and check_password_hash(usuario_bd.password, password):
 
         session["usuario"] = usuario_bd.usuario
 
         return redirect(url_for("dashboard"))
 
-    else:
-
-        return "Usuario o contraseña incorrectos"
-    
-#@app.route('/crear_usuario')
-#def crear_usuario():
-#    return render_template('crear_usuario.html')
+    return render_template(
+        "login.html",
+        mensaje="Usuario o contraseña incorrectos."
+    )
 
 @app.route("/dashboard")
 def dashboard():

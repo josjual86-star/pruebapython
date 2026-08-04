@@ -20,6 +20,7 @@ def crear_usuario():
     if request.method == "POST":
         # Aquí guardarás el usuario
         return "Usuario creado"
+    
 
     return render_template("crear_usuario.html")
 

@@ -19,42 +19,36 @@ def crear_usuario():
 
     if request.method == "POST":
 
-        usuario = request.form["usuario"]
-        password = request.form["password"]
-        confirmar = request.form["confirmar_password"]
+        try:
 
-        # Verificar que las contraseñas coincidan
-        if password != confirmar:
-            return render_template(
-                "crear_usuario.html",
-                mensaje="Las contraseñas no coinciden."
+            usuario = request.form["usuario"]
+            password = request.form["password"]
+            confirmar = request.form["confirmar_password"]
+
+            if password != confirmar:
+                return "Las contraseñas no coinciden"
+
+            existe = Usuario.query.filter_by(usuario=usuario).first()
+
+            if existe:
+                return "El usuario ya existe"
+
+            password_hash = generate_password_hash(password)
+
+            nuevo_usuario = Usuario(
+                usuario=usuario,
+                password=password_hash,
+                activo=True
             )
 
-        # Verificar si el usuario ya existe
-        existe = Usuario.query.filter_by(usuario=usuario).first()
+            db.session.add(nuevo_usuario)
+            db.session.commit()
 
-        if existe:
-            return render_template(
-                "crear_usuario.html",
-                mensaje="El usuario ya existe."
-            )
+            return "Usuario guardado correctamente"
 
-        # Cifrar contraseña
-        password_hash = generate_password_hash(password)
-
-        nuevo_usuario = Usuario(
-            usuario=usuario,
-            password=password_hash,
-            activo=True
-        )
-
-        db.session.add(nuevo_usuario)
-        db.session.commit()
-
-        return render_template(
-            "login.html",
-            mensaje="Usuario creado correctamente. Ya puedes iniciar sesión."
-        )
+        except Exception as e:
+            db.session.rollback()
+            return f"ERROR: {e}"
 
     return render_template("crear_usuario.html")
 

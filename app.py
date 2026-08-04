@@ -18,8 +18,8 @@ def inicio():
 def crear_usuario():
 
     if request.method == "POST":
-        # Aquí se guarda el usuario en la base de datos 
-        pass
+        # Aquí guardarás el usuario
+        return "Usuario creado"
 
     return render_template("crear_usuario.html")
 

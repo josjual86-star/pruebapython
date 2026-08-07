@@ -57,6 +57,10 @@ def crear_usuario():
 @app.before_request
 def verificar_sesion():
 
+    print("----- BEFORE REQUEST -----")
+    print("Endpoint:", request.endpoint)
+    print("Session:", session)
+
     rutas_publicas = [
         "inicio",
         "login",
@@ -67,15 +71,25 @@ def verificar_sesion():
         return
 
     if "usuario" not in session:
+        print("No hay usuario")
         return redirect(url_for("inicio"))
 
     if "token" not in session:
+        print("No hay token")
         session.clear()
         return redirect(url_for("inicio"))
 
-    if datetime.now().timestamp() > session.get("expira", 0):
+    print("Hora actual:", datetime.now().timestamp())
+    print("Expira:", session.get("expira"))
+
+    if datetime.now().timestamp() > session.get("expira",0):
+
+        print("TOKEN EXPIRADO")
+
         session.clear()
+
         return redirect(url_for("inicio"))
+    #------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route("/login", methods=["POST"])
 def login():

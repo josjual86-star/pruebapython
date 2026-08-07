@@ -73,28 +73,33 @@ def login():
         activo=True
     ).first()
 
+    if usuario_bd:
+        print("Usuario encontrado:", usuario_bd.usuario)
+    else:
+        print("Usuario NO encontrado")
+
     if usuario_bd and check_password_hash(usuario_bd.password, password):
+
+        print("PASSWORD CORRECTO")
 
         token = secrets.token_hex(32)
 
         fecha_expiracion = datetime.now() + timedelta(minutes=1)
 
-        # Guardar en la base de datos
         usuario_bd.token = token
         usuario_bd.token_expira = fecha_expiracion
 
         db.session.commit()
 
-        # Guardar en la sesión
+        print("TOKEN GUARDADO:", token)
+
         session["usuario"] = usuario_bd.usuario
         session["token"] = token
 
         return redirect(url_for("dashboard"))
 
-    return render_template(
-        "login.html",
-        mensaje="Usuario o contraseña incorrectos."
-    )
+    print("PASSWORD INCORRECTO")
+    
 @app.route("/dashboard")
 def dashboard():
 

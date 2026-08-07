@@ -75,13 +75,19 @@ def login():
 
     if usuario_bd and check_password_hash(usuario_bd.password, password):
 
+        token = secrets.token_hex(32)
+
+        fecha_expiracion = datetime.now() + timedelta(minutes=1)
+
+        # Guardar en la base de datos
+        usuario_bd.token = token
+        usuario_bd.token_expira = fecha_expiracion
+
+        db.session.commit()
+
+        # Guardar en la sesión
         session["usuario"] = usuario_bd.usuario
-
-        session["token"] = secrets.token_hex(32)
-
-        session["expira"] = (
-            datetime.now() + timedelta(minutes=1)
-        ).timestamp()
+        session["token"] = token
 
         return redirect(url_for("dashboard"))
 
@@ -89,7 +95,6 @@ def login():
         "login.html",
         mensaje="Usuario o contraseña incorrectos."
     )
-
 @app.route("/dashboard")
 def dashboard():
 

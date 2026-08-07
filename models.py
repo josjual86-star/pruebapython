@@ -15,6 +15,10 @@ class Usuario(db.Model):
 
     activo = db.Column(db.Boolean, default=True)
 
+    token = db.Column(db.String(64), nullable=True)
+
+    token_expira = db.Column(db.DateTime, nullable=True)
+
 class Producto(db.Model):
 
     __tablename__ = "productos"

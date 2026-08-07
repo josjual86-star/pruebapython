@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from config import Config
 from models import db, Usuario, Producto, Empleado
 from werkzeug.security import generate_password_hash, check_password_hash
+import secrets
+from datetime import timedelta, datetime
 
 app = Flask(__name__)
 
@@ -51,6 +53,29 @@ def crear_usuario():
             return f"ERROR: {e}"
 
     return render_template("crear_usuario.html")
+#------------------------------------------------------------------------------------------------------------------------------------
+@app.before_request
+def verificar_sesion():
+
+    rutas_publicas = [
+        "inicio",
+        "login",
+        "static"
+    ]
+
+    if request.endpoint in rutas_publicas:
+        return
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    if "token" not in session:
+        session.clear()
+        return redirect(url_for("inicio"))
+
+    if datetime.now().timestamp() > session.get("expira", 0):
+        session.clear()
+        return redirect(url_for("inicio"))
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -66,6 +91,12 @@ def login():
     if usuario_bd and check_password_hash(usuario_bd.password, password):
 
         session["usuario"] = usuario_bd.usuario
+
+        session["token"] = secrets.token_hex(32)
+
+        session["expira"] = (
+            datetime.now() + timedelta(minutes=1)
+        ).timestamp()
 
         return redirect(url_for("dashboard"))
 

@@ -11,7 +11,7 @@ class Usuario(db.Model):
 
     usuario = db.Column(db.String(50), nullable=False)
 
-    password = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
     activo = db.Column(db.Boolean, default=True)
 

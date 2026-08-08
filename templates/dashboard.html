@@ -14,19 +14,35 @@
 
     body{
 
-    background-image: url("{{ url_for('static', filename='img/logo.png') }}");
+    background-color:#f8f9fa;
 
-    background-repeat: no-repeat;
-
-    background-position: center center;
-
-    background-size: 500px;
-
-    background-attachment: fixed;
+    position:relative;
 
 }
 
-    </style>
+    body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:url("{{ url_for('static', filename='img/logo.png') }}");
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:550px;
+
+    opacity:.08;
+
+    z-index:-1;
+
+}
+
+</style>
 
 </head>
 

@@ -57,9 +57,48 @@ def crear_usuario():
 @app.before_request
 def verificar_sesion():
 
-    print("BEFORE:", request.endpoint)
+    rutas_publicas = [
+        "inicio",
+        "login",
+        "crear_usuario",
+        "static"
+    ]
 
-    return
+    if request.endpoint in rutas_publicas:
+        return
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    if "token" not in session:
+        session.clear()
+        return redirect(url_for("inicio"))
+
+    usuario = Usuario.query.filter_by(
+        usuario=session["usuario"],
+        activo=True
+    ).first()
+
+    if not usuario:
+        session.clear()
+        return redirect(url_for("inicio"))
+
+    if usuario.token != session["token"]:
+        session.clear()
+        return redirect(url_for("inicio"))
+
+    if usuario.token_expira is None:
+        session.clear()
+        return redirect(url_for("inicio"))
+
+    if datetime.now() > usuario.token_expira:
+        session.clear()
+
+        usuario.token = None
+        usuario.token_expira = None
+        db.session.commit()
+
+        return redirect(url_for("inicio"))
     #------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route("/login", methods=["POST"])

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from config import Config
-from models import db, Usuario, Producto, Empleado
+from models import db, Usuario, Producto, Empleado, Proveedor  
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 from datetime import timedelta, datetime
@@ -328,3 +328,89 @@ def nuevo_empleado():
 
 if __name__ == "__main__":
     app.run(debug=True)
+#-------------------------------------------------------------------------------------------------------------------------------------
+@app.route("/proveedores")
+def proveedores():
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    proveedores = Proveedor.query.filter_by(activo=True).all()
+
+    return render_template(
+        "proveedores.html",
+        proveedores=proveedores
+    )
+
+@app.route("/proveedores/nuevo")
+def nuevo_proveedor():
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    return render_template("nuevo_proveedor.html")
+
+@app.route("/proveedores/guardar", methods=["POST"])
+def guardar_proveedor():
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    empresa = request.form["empresa"]
+    telefono = request.form["telefono"]
+    correo = request.form["correo"]
+
+    nuevo = Proveedor(
+        empresa=empresa,
+        telefono=telefono,
+        correo=correo
+    )
+
+    db.session.add(nuevo)
+
+    db.session.commit()
+
+    return redirect(url_for("proveedores"))
+
+@app.route("/proveedores/editar/<int:id>")
+def editar_proveedor(id):
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    proveedor = Proveedor.query.get_or_404(id)
+
+    return render_template(
+        "editar_proveedor.html",
+        proveedor=proveedor
+    )
+
+@app.route("/proveedores/actualizar/<int:id>", methods=["POST"])
+def actualizar_proveedor(id):
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    proveedor = Proveedor.query.get_or_404(id)
+
+    proveedor.empresa = request.form["empresa"]
+    proveedor.telefono = request.form["telefono"]
+    proveedor.correo = request.form["correo"]
+
+    db.session.commit()
+
+    return redirect(url_for("proveedores"))
+
+@app.route("/proveedores/eliminar/<int:id>")
+def eliminar_proveedor(id):
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    proveedor = Proveedor.query.get_or_404(id)
+
+    proveedor.activo = False
+
+    db.session.commit()
+
+    return redirect(url_for("proveedores"))

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Proveedores</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-center">Catálogo de Proveedores</h2>
+
+    <div class="d-flex justify-content-center mb-3">
+
+    <a href="{{ url_for('nuevo_proveedor') }}"
+        class="btn btn-success">
+
+        Agregar Proveedor
+
+    </a>
+
+</div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead">
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Empresa</th>
+
+                <th>Telefono</th>
+
+                <th>Correo</th>
+
+                <th>Acciones</th>
+
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for proveedor in proveedores %}
+
+            <tr>
+
+                <td>{{ proveedor.id }}</td>
+
+                <td>{{ proveedor.empresa }}</td>
+
+                <td>{{ proveedor.telefono }}</td>
+
+                <td>{{ proveedor.correo }}</td>
+
+                <td>
+
+                    <a href="{{ url_for('editar_proveedor', id=proveedor.id) }}"
+                    class="btn btn-warning btn-sm">
+
+                    Editar
+
+                    </a>
+                    <a href="{{ url_for('eliminar_proveedor', id=proveedor.id) }}"
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('¿Eliminar este proveedor?')">
+
+                    Eliminar
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <a href="{{ url_for('dashboard') }}"
+        class="btn btn-secondary">
+
+        Regresar
+
+    </a>
+
+</div>
+
+</body>
+</html>

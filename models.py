@@ -42,3 +42,17 @@ class Empleado(db.Model):
     puesto = db.Column(db.String(100), nullable=False)
 
     activo = db.Column(db.Boolean, default=True)
+
+class Proveedor(db.Model):
+
+    __tablename__ = "proveedores"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    empresa = db.Column(db.String(100), nullable=False)
+
+    telefono = db.Column(db.String(20), nullable=False)
+
+    correo = db.Column(db.String(100), nullable=False)
+
+    activo = db.Column(db.Boolean, default=True)

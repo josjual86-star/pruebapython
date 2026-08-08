@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nuevo Proveedor</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    <h3>Editar Proveedor</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form action="{{ url_for('guardar_proveedor') }}"
+                        method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">Empresa</label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="empresa"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">Teléfono</label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="telefono"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">Correo</label>
+
+                            <input
+                                type="email"
+                                class="form-control"
+                                name="correo"
+                                required>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Guardar
+
+                        </button>
+
+                        <a href="{{ url_for('proveedores') }}"
+                            class="btn btn-secondary">
+
+                            Cancelar
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+
+</html>

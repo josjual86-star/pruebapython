@@ -414,3 +414,105 @@ def eliminar_proveedor(id):
     db.session.commit()
 
     return redirect(url_for("proveedores"))
+#-------------------------------------------------------------------------------------------------------------------------------------
+@app.route("/usuarios")
+def usuarios():
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    usuarios = Usuario.query.filter_by(activo=True).all()
+
+    return render_template(
+        "usuarios.html",
+        usuarios=usuarios
+    )
+
+@app.route("/usuarios/nuevo")
+def nuevo_usuario():
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    return render_template("nuevo_usuario.html")
+
+@app.route("/usuarios/guardar", methods=["POST"])
+def guardar_usuario():
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    usuario = request.form["usuario"]
+    password = request.form["password"]
+    confirmar = request.form["confirmar_password"]
+
+    if password != confirmar:
+        return "Las contraseñas no coinciden"
+
+    existe = Usuario.query.filter_by(usuario=usuario).first()
+
+    if existe:
+        return "El usuario ya existe"
+
+    password_hash = generate_password_hash(password)
+
+    nuevo = Usuario(
+        usuario=usuario,
+        password=password_hash
+    )
+
+    db.session.add(nuevo)
+    db.session.commit()
+
+    return redirect(url_for("usuarios"))
+
+@app.route("/usuarios/editar/<int:id>")
+def editar_usuario(id):
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    usuario = Usuario.query.get_or_404(id)
+
+    return render_template(
+        "editar_usuario.html",
+        usuario=usuario
+    )
+
+@app.route("/usuarios/actualizar/<int:id>", methods=["POST"])
+def actualizar_usuario(id):
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    usuario = Usuario.query.get_or_404(id)
+
+    usuario.usuario = request.form["usuario"]
+
+    password = request.form["password"]
+    confirmar = request.form["confirmar_password"]
+
+    if password != "":
+
+        if password != confirmar:
+            return "Las contraseñas no coinciden"
+
+        usuario.password = generate_password_hash(password)
+
+    db.session.commit()
+
+    return redirect(url_for("usuarios"))
+
+@app.route("/usuarios/eliminar/<int:id>")
+def eliminar_usuario(id):
+
+    if "usuario" not in session:
+        return redirect(url_for("inicio"))
+
+    usuario = Usuario.query.get_or_404(id)
+
+    usuario.activo = False
+
+    db.session.commit()
+
+    return redirect(url_for("usuarios"))

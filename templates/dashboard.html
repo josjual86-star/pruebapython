@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Dashboard</title>
 
@@ -14,33 +15,40 @@
 
 <body class="bg-light">
 
-<div class="container py-5">
+<div class="container mt-5">
 
     <div class="text-center mb-5">
 
-        <h1 class="fw-bold">Sistema de administración</h1>
+        <h1 class="fw-bold">
+            TechControl
+        </h1>
 
         <h4>
-            Bienvenido {{ usuario }}
+            Sistema de Administración de Gadgets
         </h4>
+
+        <p class="text-muted">
+            Bienvenido {{ usuario }}
+        </p>
 
     </div>
 
-    <div class="row justify-content-center g-4">
+    <div class="row g-4">
 
-        <div class="col-md-4">
+        <!-- Productos -->
+        <div class="col-md-6 col-lg-3">
 
             <div class="card shadow h-100">
 
                 <div class="card-body text-center">
 
-                    <h4>Productos</h4>
+                    <h4>📦 Productos</h4>
 
                     <p>
                         Administra los productos del sistema.
                     </p>
 
-                    <a href="/productos"
+                    <a href="{{ url_for('productos') }}"
                         class="btn btn-primary w-100">
 
                         Entrar
@@ -53,20 +61,20 @@
 
         </div>
 
-        <div class="col-md-4">
+        <!-- Empleados -->
+        <div class="col-md-6 col-lg-3">
 
             <div class="card shadow h-100">
 
                 <div class="card-body text-center">
 
-
-                    <h4>Empleados</h4>
+                    <h4>👨‍💼 Empleados</h4>
 
                     <p>
                         Administra los empleados.
                     </p>
 
-                    <a href="/empleados"
+                    <a href="{{ url_for('empleados') }}"
                         class="btn btn-success w-100">
 
                         Entrar
@@ -79,25 +87,21 @@
 
         </div>
 
-    </div>
-
-#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-<div class="row justify-content-center g-4">
-
-        <div class="col-md-4">
+        <!-- Proveedores -->
+        <div class="col-md-6 col-lg-3">
 
             <div class="card shadow h-100">
 
                 <div class="card-body text-center">
 
-                    <h4>Proveedores</h4>
+                    <h4>🚚 Proveedores</h4>
 
                     <p>
-                        Administra los proveedores del sistema.
+                        Administra los proveedores.
                     </p>
 
-                    <a href="/proveedores"
-                        class="btn btn-primary w-100">
+                    <a href="{{ url_for('proveedores') }}"
+                        class="btn btn-warning w-100">
 
                         Entrar
 
@@ -108,11 +112,39 @@
             </div>
 
         </div>
-#------------------------------------------------------------------------------------------------------------------
+
+        <!-- Usuarios -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h4>👤 Usuarios</h4>
+
+                    <p>
+                        Administra los usuarios del sistema.
+                    </p>
+
+                    <a href="{{ url_for('usuarios') }}"
+                        class="btn btn-info w-100">
+
+                        Entrar
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <div class="text-center mt-5">
 
         <a href="{{ url_for('logout') }}"
-            class="btn btn-danger w-25">
+            class="btn btn-danger px-5">
 
             Cerrar sesión
 
@@ -125,4 +157,5 @@
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 
 </body>
+
 </html>

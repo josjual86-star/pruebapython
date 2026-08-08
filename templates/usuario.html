@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Usuarios</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-center">Catálogo de Usuarios</h2>
+
+    <div class="d-flex justify-content-center mb-3">
+
+        <a href="{{ url_for('nuevo_usuario') }}"
+            class="btn btn-success">
+
+            Agregar Usuario
+
+        </a>
+
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Usuario</th>
+
+                <th>Estado</th>
+
+                <th>Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for usuario in usuarios %}
+
+            <tr>
+
+                <td>{{ usuario.id }}</td>
+
+                <td>{{ usuario.usuario }}</td>
+
+                <td>
+
+                    {% if usuario.activo %}
+
+                        Activo
+
+                    {% else %}
+
+                        Inactivo
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a href="{{ url_for('editar_usuario', id=usuario.id) }}"
+                        class="btn btn-warning btn-sm">
+
+                        Editar
+
+                    </a>
+
+                    <a href="{{ url_for('eliminar_usuario', id=usuario.id) }}"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Desactivar este usuario?')">
+
+                        Eliminar
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <a href="{{ url_for('dashboard') }}"
+        class="btn btn-secondary">
+
+        Regresar
+
+    </a>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+
+</html>
